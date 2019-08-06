@@ -1,6 +1,8 @@
 package com.lexi.ren.model;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Product {
@@ -8,6 +10,8 @@ public class Product {
     private String productNum;
     private String productName;
     private String cityName;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
     private Date departureTime;
     private double productPrice;
     private String productDesc;
@@ -75,5 +79,19 @@ public class Product {
 
     public void setProductStatus(int productStatus) {
         this.productStatus = productStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", productNum='" + productNum + '\'' +
+                ", productName='" + productName + '\'' +
+                ", cityName='" + cityName + '\'' +
+                ", departureTime=" + departureTime +
+                ", productPrice=" + productPrice +
+                ", productDesc='" + productDesc + '\'' +
+                ", productStatus=" + productStatus +
+                '}';
     }
 }
