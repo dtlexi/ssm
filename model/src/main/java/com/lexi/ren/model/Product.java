@@ -11,8 +11,9 @@ public class Product {
     private String productName;
     private String cityName;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date departureTime;
+
     private double productPrice;
     private String productDesc;
     private int productStatus;

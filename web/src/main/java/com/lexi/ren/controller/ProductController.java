@@ -1,5 +1,6 @@
 package com.lexi.ren.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.lexi.ren.model.Product;
 import com.lexi.ren.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,11 @@ public class ProductController {
     public ModelAndView findAll(@PathVariable(value = "page",required = true) Integer page, @PathVariable("size") Integer size)
     {
         ModelAndView mv = new ModelAndView();
-        List<Product> products = productService.findAll(page,size);
-        mv.addObject("productList", products);
+        PageInfo<Product> pageInfo = productService.findAll(page,size);
+
+        System.out.println(pageInfo.getPageNum());
+
+        mv.addObject("pageInfo", pageInfo);
         mv.setViewName("product-list");
         return mv;
     }
@@ -37,6 +41,6 @@ public class ProductController {
     @RequestMapping("/save.do")
     public String save(Product product) {
         productService.save(product);
-        return "redirect:find.do";
+        return "redirect:find/1/2.do";
     }
 }

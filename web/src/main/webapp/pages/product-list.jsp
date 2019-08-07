@@ -244,7 +244,7 @@
 								<tbody>
 
 
-									<c:forEach items="${productList}" var="product">
+									<c:forEach items="${pageInfo.list}" var="product">
 
 										<tr>
 											<td><input name="ids" type="checkbox"></td>
@@ -276,38 +276,6 @@
                             </tfoot>-->
 							</table>
 							<!--数据列表/-->
-
-							<!--工具栏-->
-							<div class="pull-left">
-								<div class="form-group form-inline">
-									<div class="btn-group">
-										<button type="button" class="btn btn-default" title="新建">
-											<i class="fa fa-file-o"></i> 新建
-										</button>
-										<button type="button" class="btn btn-default" title="删除">
-											<i class="fa fa-trash-o"></i> 删除
-										</button>
-										<button type="button" class="btn btn-default" title="开启">
-											<i class="fa fa-check"></i> 开启
-										</button>
-										<button type="button" class="btn btn-default" title="屏蔽">
-											<i class="fa fa-ban"></i> 屏蔽
-										</button>
-										<button type="button" class="btn btn-default" title="刷新">
-											<i class="fa fa-refresh"></i> 刷新
-										</button>
-									</div>
-								</div>
-							</div>
-							<div class="box-tools pull-right">
-								<div class="has-feedback">
-									<input type="text" class="form-control input-sm"
-										placeholder="搜索"> <span
-										class="glyphicon glyphicon-search form-control-feedback"></span>
-								</div>
-							</div>
-							<!--工具栏/-->
-
 						</div>
 						<!-- 数据表格 /-->
 					</div>
@@ -316,25 +284,27 @@
 					<div class="box-footer">
 						<div class="pull-left">
 							<div class="form-group form-inline">
-								总共2 页，共14 条数据。 每页 <select class="form-control">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
+								总共${pageInfo.pages} 页，共${pageInfo.total} 条数据。 每页
+								<select class="form-control" onchange="changePage()" id="changePageSize">
+									<option ${pageInfo.pageSize==1?"selected":""}>1</option>
+									<option ${pageInfo.pageSize==2?"selected":""}>2</option>
+									<option ${pageInfo.pageSize==3?"selected":""}>3</option>
+									<option ${pageInfo.pageSize==4?"selected":""}>4</option>
+									<option ${pageInfo.pageSize==5?"selected":""}>5</option>
 								</select> 条
 							</div>
 						</div>
 
 						<div class="box-tools pull-right">
 							<ul class="pagination">
-								<li><a href="#" aria-label="Previous">首页</a></li>
-								<li><a href="#">上一页</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
+								<li class="${pageInfo.pageNum==1?"disabled":""}">
+									<a href="${pageContext.request.contextPath}/product/find/1/${pageInfo.pageSize}.do" aria-label="Previous">首页</a>
+								</li>
+								<li><a href="${pageContext.request.contextPath}/product/find/1/${pageInfo.pageSize}.do">上一页</a></li>
+
+								<c:forEach begin="1" end="${pageInfo.pages}" var="i" step="1">
+									<li class="${pageInfo.pageNum==i?"active":""}"><a href="${pageContext.request.contextPath}/product/find/${i}/${pageInfo.pageSize}.do">${i}</a></li>
+								</c:forEach>
 								<li><a href="#">下一页</a></li>
 								<li><a href="#" aria-label="Next">尾页</a></li>
 							</ul>
@@ -464,8 +434,15 @@
 			$(".textarea").wysihtml5({
 				locale : 'zh-CN'
 			});
+			
+			
 		});
 
+		function  changePage() {
+			var pageSize = $("#changePageSize").val();
+			//向服务器发送请求，改变没页显示条数
+			location.href = "${pageContext.request.contextPath}/product/find/1/"+pageSize+".do";
+		}
 		// 设置激活菜单
 		function setSidebarActive(tagUri) {
 			var liObj = $("#" + tagUri);

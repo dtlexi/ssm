@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.SelectKey;
 import java.util.List;
 
 public interface IProductDao {
-    @Select("select * from product limit #{start},#{size}")
-    List<Product> findAll(@Param("start") Integer start,@Param("size") Integer size);
+    @Select("select * from product")
+    List<Product> findAll();
 
     @Insert("INSERT INTO product (productNum,productName,cityName,departureTime,productPrice,productDesc,productStatus) VALUES (#{productNum},#{productName},#{cityName},#{departureTime},#{productPrice},#{productDesc},#{productStatus})")
     @SelectKey(keyColumn = "id",keyProperty = "id",resultType = Integer.class,before = false,statement = {"select last_insert_id()"})
