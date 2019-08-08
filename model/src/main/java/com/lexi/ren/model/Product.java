@@ -1,6 +1,7 @@
 package com.lexi.ren.model;
 
 
+import com.lexi.ren.utils.DateUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ public class Product {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date departureTime;
 
+    private String departureTimeStr;
     private double productPrice;
     private String productDesc;
     private int productStatus;
@@ -94,5 +96,9 @@ public class Product {
                 ", productDesc='" + productDesc + '\'' +
                 ", productStatus=" + productStatus +
                 '}';
+    }
+
+    public String getDepartureTimeStr() {
+        return DateUtils.date2String(departureTime,"yyyy-MM-dd HH:mm:ss");
     }
 }
